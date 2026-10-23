@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ram Chandra Giri · Lab Notebook</title>
+<meta name="description" content="Ram Chandra Giri: MSc Physics, physics educator, preparing for a PhD in Computational Physics and Nonlinear Dynamics. Simulations of chaotic systems and physverify, a tool that checks simulations solve the equations they claim.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FBFBF8; --grid:#E4EAF3; --card:#FFFFFF; --ink:#1B2230; --ink2:#3A4458; --muted:#5A6478;
+  --rule:#C9D1DE; --dash:#B7C1D3; --link:#1F3A68; --link-h:#0F2142; --accent:#B83227; --ok:#2E6B3F;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#12161E; --grid:#1C2230; --card:#181D27; --ink:#E6E9EF; --ink2:#BFC6D3; --muted:#9AA3B4;
+    --rule:#2E3647; --dash:#3A4357; --link:#9DB8E8; --link-h:#C5D6F5; --accent:#F08A7E; --ok:#7BC48F;
+  }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background-color:var(--bg);color:var(--ink);font:16px/1.6 'IBM Plex Sans',system-ui,sans-serif;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px}
+a{color:var(--link)} a:hover{color:var(--link-h)}
+.wrap{max-width:1080px;margin:0 auto;padding:0 16px}
+.mono{font-family:'IBM Plex Mono',monospace}
+.serif{font-family:'Source Serif 4',Georgia,serif}
+header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px 16px;padding:20px 0;border-bottom:2px solid var(--ink)}
+header .brand{font-weight:600;font-size:15px;text-decoration:none;color:var(--ink)}
+nav{display:flex;flex-wrap:wrap;gap:0 20px;font-size:14px}
+nav a{text-decoration:none;padding:12px 0;display:inline-block}
+.hero{display:flex;flex-wrap:wrap;gap:40px;margin-top:40px;padding:48px 0 48px 28px;border-left:2px solid var(--accent)}
+.hero .main{flex:999 1 480px;min-width:0}
+.kicker{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+h1{font-weight:600;font-size:clamp(40px,7vw,60px);line-height:1.05;margin:14px 0 20px}
+.lede{font-size:clamp(19px,2.6vw,23px);line-height:1.45;margin:0 0 16px;max-width:640px}
+.sub{color:var(--ink2);margin:0 0 8px;max-width:620px}
+.btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
+.btn{display:inline-flex;align-items:center;min-height:48px;padding:0 20px;text-decoration:none;font-weight:500;border:1.5px solid var(--ink)}
+.btn.solid{background:var(--ink);color:var(--bg)} .btn.solid:hover{color:var(--bg);opacity:.9}
+.btn.line{color:var(--ink)}
+.status{flex:1 1 260px;align-self:flex-start;background:var(--card);border:1.5px solid var(--ink);padding:20px;font-size:13px;line-height:1.9}
+.status .row{display:flex;justify-content:space-between;gap:12px;border-bottom:1px dashed var(--dash)}
+.status .row:last-of-type{border-bottom:0}
+.status .note{margin-top:12px;color:var(--muted);line-height:1.5}
+section{padding:56px 0}
+.head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 12px;margin-bottom:24px}
+h2{font-size:clamp(28px,4.5vw,38px);font-weight:600;margin:0}
+.head span{font-size:13px;color:var(--muted)}
+.intro{color:var(--ink2);max-width:720px;margin:-8px 0 24px}
+.card{background:var(--card);border:1.5px solid var(--ink);padding:24px}
+.card h3{font-size:24px;margin:0 0 8px;font-weight:600}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:20px 0}
+.fact{border:1px solid var(--rule);padding:14px;background:var(--bg)}
+.fact b{display:block;font-family:'IBM Plex Mono',monospace;font-size:22px;color:var(--accent)}
+.fact span{font-size:14px;color:var(--ink2)}
+.links{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:14px}
+.links a{padding:6px 0;display:inline-block}
+.small{font-size:14px;color:var(--muted)}
+.exps{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.exp{background:var(--card);border:1.5px solid var(--ink);padding:20px;display:flex;flex-direction:column;gap:8px}
+.exp .tag{font-size:12px;letter-spacing:.06em;color:var(--muted);text-transform:uppercase}
+.exp h3{margin:0;font-size:21px;font-weight:600}
+.exp h3 a{text-decoration:none;color:var(--ink)} .exp h3 a:hover{text-decoration:underline}
+.exp p{margin:0;color:var(--ink2);font-size:15px}
+.exp .inv{margin-top:auto;padding-top:10px;border-top:1px dashed var(--dash);font-size:13px}
+.ci{font-size:12px;font-weight:600;letter-spacing:.04em;color:var(--ok);border:1.5px solid var(--ok);padding:2px 8px;align-self:flex-start}
+.tablebox{overflow-x:auto;border:1.5px solid var(--ink);background:var(--card)}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:14px}
+th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+tr:last-child td{border-bottom:0}
+td.res{font-family:'IBM Plex Mono',monospace;font-size:13px;white-space:nowrap}
+td.res .pass{color:var(--ok);font-weight:600}
+ol.log{list-style:none;margin:0;padding:0;border-top:1.5px solid var(--ink)}
+ol.log li{display:flex;flex-wrap:wrap;gap:6px 28px;padding:18px 0;border-bottom:1px solid var(--rule)}
+ol.log .when{flex:0 0 96px;font-size:14px;color:var(--muted)}
+ol.log .what{flex:999 1 400px;min-width:0}
+ol.log .what b{font-size:17px;font-weight:600}
+ol.log .what div{color:var(--ink2)}
+.stamp{align-self:center;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.06em;padding:3px 10px;border:1.5px solid var(--ok);color:var(--ok)}
+.stamp.next{border-color:var(--accent);color:var(--accent)}
+.apps{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.apps .card h3{font-size:19px}
+.apps .card p{margin:0;color:var(--ink2);font-size:15px}
+footer{border-top:2px solid var(--ink);margin-top:24px;padding:28px 0 48px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
+footer .links{font-size:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <a class="brand mono" href="#top">rcgiri / lab-notebook</a>
+  <nav class="mono" aria-label="Sections">
+    <a href="#physverify">§1 physverify</a>
+    <a href="#experiments">§2 Experiments</a>
+    <a href="#log">§3 Log</a>
+    <a href="#applied">§4 Applied</a>
+  </nav>
+</header>
+
+<main>
+<section class="hero" id="top">
+  <div class="main">
+    <div class="kicker mono">Nepal · Oct 2026</div>
+    <h1 class="serif">Ram Chandra Giri</h1>
+    <p class="lede serif">I model non-linear and chaotic systems with my own integrators, and check every result against a conservation law or an independent reference.</p>
+    <p class="sub">MSc Physics · Physics educator · Preparing for a PhD in Computational Physics &amp; Nonlinear Dynamics.</p>
+    <p class="sub"><b>Research interests:</b> Hamiltonian and dissipative chaos, symplectic integration, verification of scientific software.</p>
+    <div class="btns">
+      <a class="btn solid" href="#physverify">See the main work</a>
+      <a class="btn line" href="https://github.com/rcgiri-physics">GitHub</a>
+      <a class="btn line" href="https://orcid.org/0009-0008-7149-7938">ORCID</a>
+    </div>
+  </div>
+  <aside class="status mono" aria-label="Current status">
+    <div style="font-weight:600;margin-bottom:6px">STATUS · OCT 2026</div>
+    <div class="row"><span>physics projects</span><span>5</span></div>
+    <div class="row"><span>physverify checks in CI</span><span>40/40 pass</span></div>
+    <div class="row"><span>research software</span><span>physverify 0.4.2</span></div>
+    <div class="row"><span>next, from Nov</span><span style="color:var(--accent)">Lin. algebra</span></div>
+    <div class="note">Hardware: Acer Aspire E5-574G laptop, Core i7-6500U (2 cores, 4 threads), 8 GB RAM. All code runs on the CPU.</div>
+  </aside>
+</section>
+
+<section id="physverify">
+  <div class="head"><h2 class="serif">§1 &nbsp;Main work: physverify</h2><span class="mono">research software · MIT</span></div>
+  <div class="card">
+    <h3 class="serif">Does the simulation solve the equations it claims?</h3>
+    <p style="margin:0;max-width:760px;color:var(--ink2)">physverify checks that a simulation solves the equations it claims, at the order of accuracy it claims, not just that it runs. It runs your solver at several resolutions, measures the error, and gives PASS, FAIL or INCONCLUSIVE with a reason. Convergence-order, conservation and manufactured-solution checks for ODE and 1D PDE solvers; a static <span class="mono">scan</span> for Runge-Kutta tables, grid spacings and physical constants. Needs only NumPy.</p>
+    <div class="facts">
+      <div class="fact"><b>35 / 37</b><span>seeded bugs flagged, no false alarms (bugs and checks by the same person)</span></div>
+      <div class="fact"><b>74</b><span>defects reported to authors of public physics code (<a href="https://github.com/rcgiri-physics/physverify/blob/main/results/corpus/FINDINGS_BY_METHOD.md">which method found each</a>)</span></div>
+      <div class="fact"><b>40 / 40</b><span>checks pass in CI on my own five projects (below)</span></div>
+    </div>
+    <div class="links mono">
+      <a href="https://github.com/rcgiri-physics/physverify">GitHub</a>
+      <a href="https://pypi.org/project/physverify/">PyPI</a>
+      <a href="https://rcgiri-physics.github.io/physverify/">Docs</a>
+      <a href="https://doi.org/10.5281/zenodo.23534512">doi:10.5281/zenodo.23534512</a>
+    </div>
+    <p class="small" style="margin:16px 0 0">Limits: works best for ODEs; PDEs in 1D so far. A PASS means these checks found nothing wrong, not that the simulation is proven correct.</p>
+  </div>
+</section>
+
+<section id="experiments">
+  <div class="head"><h2 class="serif">§2 &nbsp;Experiments</h2><span class="mono">each one with the check used to trust it</span></div>
+  <div class="exps">
+    <article class="exp">
+      <span class="tag mono">EXP-04 · symplectic</span>
+      <h3 class="serif"><a href="https://github.com/rcgiri-physics/three-body-simulation">3-Body Laboratory</a></h3>
+      <p>Custom Velocity-Verlet engine; Sun-Earth-Jupiter validated over 12 years; ejection threshold δ ≈ 0.5.</p>
+      <div class="inv mono">energy error ~10⁻⁹</div>
+      <span class="ci mono">physverify 9/9</span>
+    </article>
+    <article class="exp">
+      <span class="tag mono">EXP-06 · chaos</span>
+      <h3 class="serif"><a href="https://github.com/rcgiri-physics/lorenz-attractor-simulation">Lorenz Attractor</a></h3>
+      <p>Adaptive RK4, bifurcation sweep over ρ, twin trajectories at δ ~ 10⁻⁸.</p>
+      <div class="inv mono">λ_max &gt; 0</div>
+      <span class="ci mono">physverify 8/8</span>
+    </article>
+    <article class="exp">
+      <span class="tag mono">EXP-05 · Lagrangian</span>
+      <h3 class="serif"><a href="https://github.com/rcgiri-physics/double-pendulum-simulation">Double Pendulum</a></h3>
+      <p>Euler-Lagrange in (θ₁, θ₂); where invariant tori break into chaotic seas.</p>
+      <div class="inv mono">Poincaré sections</div>
+      <span class="ci mono">physverify 7/7</span>
+    </article>
+    <article class="exp">
+      <span class="tag mono">EXP-03 · legacy migration</span>
+      <h3 class="serif"><a href="https://github.com/rcgiri-physics/LCR-Circuit-Modernization">Driven LCR Circuit</a></h3>
+      <p>MSc dissertation (2023, Fortran 90) rebuilt as vectorised Python; matches the legacy Fortran output.</p>
+      <div class="inv mono">residual vs SciPy &lt; 10⁻⁷</div>
+      <span class="ci mono">physverify 7/7</span>
+    </article>
+    <article class="exp">
+      <span class="tag mono">EXP-01/02 · ballistics</span>
+      <h3 class="serif"><a href="https://github.com/rcgiri-physics/projectile-simulation">Projectile Simulation</a></h3>
+      <p>Vacuum to linear and quadratic drag; Euler to RK4; fixed vs adaptive steps.</p>
+      <div class="inv mono">spatial residual maps</div>
+      <span class="ci mono">physverify 9/9</span>
+    </article>
+  </div>
+
+  <h3 class="serif" style="font-size:24px;margin:40px 0 8px;font-weight:600">physverify in CI on these projects</h3>
+  <p class="intro" style="margin:0 0 16px">Every push runs physverify in GitHub Actions. Latest results on <span class="mono">main</span>:</p>
+  <div class="tablebox">
+    <table>
+      <thead><tr><th>Project</th><th>What CI checks</th><th>Result</th></tr></thead>
+      <tbody>
+        <tr><td>3-Body</td><td>Velocity-Verlet order; momentum, angular momentum, time reversal; README energy claim</td><td class="res">order 2.00 · ~10⁻¹⁵ · |ΔE/E₀| 6.4×10⁻⁹<br><span class="pass">9/9 PASS</span></td></tr>
+        <tr><td>Lorenz</td><td>Equations at RK4 order; phase-space contraction −(σ+1+β); Jacobian; Lyapunov sum = trace</td><td class="res">order 3.97–4.28<br><span class="pass">8/8 PASS</span></td></tr>
+        <tr><td>Double Pendulum</td><td>Equations at RK4 order; README energy-drift benchmark</td><td class="res">order 3.78–4.73 · drift 7.8×10⁻¹²<br><span class="pass">7/7 PASS</span></td></tr>
+        <tr><td>Projectile</td><td>Euler and RK4 vs exact solutions (vacuum, linear drag) and quadratic drag</td><td class="res">Euler 1.00 · RK4 3.97–4.04<br><span class="pass">9/9 PASS</span></td></tr>
+        <tr><td>LCR Circuit</td><td>RK4 vs exact solution at R = 10, 40, 100 Ω; README SciPy claim</td><td class="res">order 4.00–4.25 · 9.9×10⁻⁸<br><span class="pass">7/7 PASS</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="small">For Lorenz and the double pendulum, CI checks the equations of motion with physverify's own RK4; their adaptive solvers are not order-checked (the double pendulum's is checked through its energy benchmark).</p>
+</section>
+
+<section id="log">
+  <div class="head"><h2 class="serif">§3 &nbsp;2026 log</h2><span class="mono">toward a PhD in computational physics</span></div>
+  <ol class="log">
+    <li><span class="when mono">2026-01/02</span><div class="what"><b>Projectile v1.0 → v2.1</b><div>Euler, then RK4 validated against SciPy.</div></div><span class="stamp">DONE</span></li>
+    <li><span class="when mono">2026-04</span><div class="what"><b>LCR modernisation · Chaotic 3-body dynamics</b><div>Fortran → Python pipeline; symplectic Velocity-Verlet with energy tracking.</div></div><span class="stamp">DONE</span></li>
+    <li><span class="when mono">2026-05</span><div class="what"><b>Double pendulum · Lorenz attractor</b><div>Euler-Lagrange derivation, Poincaré sections, bifurcation mapping, λ_max.</div></div><span class="stamp">DONE</span></li>
+    <li><span class="when mono">2026-06/09</span><div class="what"><b>Applied work</b><div><a href="https://mcqplex.com">MCQplex</a> (NEB exam prep), school routine planner, <a href="https://github.com/rcgiri-physics/llm-free-cascade">llm-free-cascade</a>, <a href="https://github.com/rcgiri-physics/pdf-render-pool">pdf-render-pool</a>, <a href="https://github.com/rcgiri-physics/mongo-job-lock">mongo-job-lock</a>.</div></div><span class="stamp">LIVE</span></li>
+    <li><span class="when mono">2026-10</span><div class="what"><b>physverify 0.1 → 0.4.2</b><div>Verification tool for simulations; added to CI on all five physics projects.</div></div><span class="stamp">RELEASED</span></li>
+    <li><span class="when mono">2026-11 →</span><div class="what"><b>Computational linear algebra</b><div>Eigenvalue problems, Lanczos, normal modes. Then Numba / C++ acceleration → PDEs and lattice systems → multi-core parameter sweeps.</div></div><span class="stamp next">NEXT</span></li>
+  </ol>
+</section>
+
+<section id="applied">
+  <div class="head"><h2 class="serif">§4 &nbsp;Applied work and open source</h2><span class="mono">EdTech for Nepal</span></div>
+  <div class="apps">
+    <div class="card"><h3 class="serif"><a href="https://mcqplex.com">MCQplex</a></h3><p>Adaptive NEB exam prep for low-end Android and patchy networks, with teacher analytics and practice duels.</p></div>
+    <div class="card"><h3 class="serif">Routine &amp; Substitution Planner</h3><p>Offline-first school timetable with a tiered teacher-substitution engine.</p></div>
+    <div class="card"><h3 class="serif">Open curricula <span class="small mono">v0.1</span></h3><p><a href="https://rcgiri-physics.github.io/git-for-schools/">git-for-schools</a> (offline-first Git, Grades 8–12) and <a href="https://rcgiri-physics.github.io/data-science-nepal/">data-science-nepal</a> (bilingual, Nepali datasets). Not yet piloted in a classroom.</p></div>
+    <div class="card"><h3 class="serif">Utilities</h3><p><a href="https://github.com/rcgiri-physics/llm-free-cascade">llm-free-cascade</a> (free-tier LLM fallback), <a href="https://github.com/rcgiri-physics/pdf-render-pool">pdf-render-pool</a> (Puppeteer HTML→PDF pool), <a href="https://github.com/rcgiri-physics/mongo-job-lock">mongo-job-lock</a> (run a clustered cron job once).</p></div>
+  </div>
+</section>
+</main>
+
+<footer class="mono">
+  <span class="small">© 2026 Ram Chandra Giri</span>
+  <div class="links">
+    <a href="https://github.com/rcgiri-physics">GitHub</a>
+    <a href="https://orcid.org/0009-0008-7149-7938">ORCID</a>
+    <a href="https://pypi.org/project/physverify/">physverify on PyPI</a>
+  </div>
+</footer>
+
+</div>
+</body>
+</html>
